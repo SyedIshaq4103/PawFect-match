@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat - PawfectMatch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex items-center justify-between">
+    <h1 class="text-xl font-bold text-indigo-600">PawfectMatch Chat</h1>
+    <a href="index.html" class="text-indigo-600 hover:underline">Back to Home</a>
+  </header>
+
+  <!-- Main Content -->
+  <div class="flex flex-1">
+    <!-- User List -->
+    <aside class="w-1/4 bg-white border-r overflow-y-auto">
+      <h2 class="text-lg font-semibold p-4 border-b">Chats</h2>
+      <ul id="userList" class="space-y-4 p-4">
+        <!-- User items will be dynamically added here -->
+      </ul>
+    </aside>
+
+    <!-- Chat Window -->
+    <main class="flex-1 flex flex-col">
+      <!-- Chat Header -->
+      <div id="chatHeader" class="p-4 border-b bg-white flex items-center">
+        <img id="chatUserAvatar" src="https://via.placeholder.com/40" alt="User Avatar" class="w-10 h-10 rounded-full hidden">
+        <h2 id="chatUsername" class="ml-4 text-lg font-semibold hidden"></h2>
+      </div>
+
+      <!-- Chat Messages -->
+      <div id="chatMessages" class="flex-1 overflow-y-auto p-4 bg-gray-50">
+        <!-- Messages will be dynamically added here -->
+      </div>
+
+      <!-- Message Input -->
+      <form id="messageForm" class="p-4 bg-white border-t flex items-center">
+        <input id="messageInput" type="text" placeholder="Type a message..." class="flex-1 border rounded-full px-4 py-2 focus:ring-2 focus:ring-indigo-600 focus:outline-none">
+        <button type="submit" class="ml-2 bg-indigo-600 text-white px-4 py-2 rounded-full">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    const socket = io();
+
+    // DOM Elements
+    const userList = document.getElementById('userList');
+    const chatHeader = document.getElementById('chatHeader');
+    const chatMessages = document.getElementById('chatMessages');
+    const messageForm = document.getElementById('messageForm');
+    const messageInput = document.getElementById('messageInput');
+
+    // Parse query parameters to get ownerId and username
+    const urlParams = new URLSearchParams(window.location.search);
+    const ownerId = urlParams.get('ownerId');
+    const username = urlParams.get('username');
+
+    // Fetch and display user list
+    async function fetchUsers() {
+      try {
+        const res = await fetch('/api/chat/users', {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        if (!res.ok) {
+          console.error('Failed to fetch users:', res.status, res.statusText);
+          return;
+        }
+        const users = await res.json();
+        console.log('Fetched users:', users); // Debugging log
+        userList.innerHTML = '';
+        users.forEach(user => {
+          const li = document.createElement('li');
+          li.className = 'flex items-center space-x-4 cursor-pointer';
+          li.innerHTML = `
+            <img src="${user.avatar || 'https://via.placeholder.com/40'}" alt="${user.name}" class="w-10 h-10 rounded-full">
+            <div>
+              <p class="text-sm font-semibold">${user.name}</p>
+              <p class="text-xs text-gray-500">${user.online ? 'Online' : 'Offline'}</p>
+            </div>
+          `;
+          li.addEventListener('click', () => openChat(user));
+          userList.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Error fetching users:', err);
+      }
+    }
+
+    // Open chat with a user
+    function openChat(user) {
+      console.log('Opening chat with user:', user); // Debugging log
+      chatHeader.querySelector('#chatUserAvatar').src = user.avatar || 'https://via.placeholder.com/40';
+      chatHeader.querySelector('#chatUsername').textContent = user.name;
+      chatHeader.querySelector('#chatUserAvatar').classList.remove('hidden');
+      chatHeader.querySelector('#chatUsername').classList.remove('hidden');
+
+      // Fetch chat history
+      fetch(`/api/chat/${user.id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(res => {
+          if (!res.ok) {
+            console.error('Failed to fetch messages:', res.status, res.statusText);
+            return;
+          }
+          return res.json();
+        })
+        .then(messages => {
+          console.log('Fetched messages:', messages); // Debugging log
+          chatMessages.innerHTML = '';
+          messages.forEach(msg => {
+            const div = document.createElement('div');
+            div.className = `mb-4 ${msg.sender === user.id ? 'text-left' : 'text-right'}`;
+            div.innerHTML = `
+              <div class="inline-block px-4 py-2 rounded-lg ${msg.sender === user.id ? 'bg-gray-200' : 'bg-indigo-600 text-white'}">
+                ${msg.content}
+              </div>
+              <p class="text-xs text-gray-500 mt-1">${new Date(msg.timestamp).toLocaleTimeString()}</p>
+            `;
+            chatMessages.appendChild(div);
+          });
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch(err => console.error('Error fetching messages:', err));
+    }
+
+    // Set chat header with owner's username and fetch chat history if ownerId and username are present
+    if (ownerId && username) {
+      chatHeader.querySelector('#chatUserAvatar').classList.remove('hidden');
+      chatHeader.querySelector('#chatUsername').textContent = username;
+      chatHeader.querySelector('#chatUsername').classList.remove('hidden');
+
+      // Fetch chat history with the owner
+      fetch(`/api/chat/history/${ownerId}`) // Updated endpoint to fetch chat history
+        .then(res => res.json())
+        .then(messages => {
+          chatMessages.innerHTML = '';
+          messages.forEach(msg => {
+            const div = document.createElement('div');
+            div.className = `mb-4 ${msg.sender === ownerId ? 'text-left' : 'text-right'}`;
+            div.innerHTML = `
+              <div class="inline-block px-4 py-2 rounded-lg ${msg.sender === ownerId ? 'bg-gray-200' : 'bg-indigo-600 text-white'}">
+                ${msg.content}
+              </div>
+              <p class="text-xs text-gray-500 mt-1">${new Date(msg.timestamp).toLocaleTimeString()}</p>
+            `;
+            chatMessages.appendChild(div);
+          });
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+    }
+
+    // Send a message
+    messageForm.addEventListener('submit', async (e) => {
+      e.preventDefault(); // Prevent page reload
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      const data = {
+        sender: localStorage.getItem('userId'), // Assuming the sender's ID is stored in localStorage
+        receiver: ownerId, // The receiver's ID from the query parameter
+        content: message
+      };
+
+      try {
+        // Send the message to the server
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          const newMessage = await res.json();
+
+          // Add the message to the chat window immediately
+          const div = document.createElement('div');
+          div.className = 'mb-4 text-right';
+          div.innerHTML = `
+            <div class="inline-block px-4 py-2 rounded-lg bg-indigo-600 text-white">
+              ${newMessage.content}
+            </div>
+            <p class="text-xs text-gray-500 mt-1">${new Date(newMessage.timestamp).toLocaleTimeString()}</p>
+          `;
+          chatMessages.appendChild(div);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+
+          messageInput.value = ''; // Clear the input field
+        } else {
+          console.error('Failed to send message');
+        }
+      } catch (err) {
+        console.error('Error sending message:', err);
+      }
+    });
+
+    // Listen for new messages
+    socket.on('receive_message', (msg) => {
+      const div = document.createElement('div');
+      div.className = `mb-4 ${msg.sender === ownerId ? 'text-left' : 'text-right'}`;
+      div.innerHTML = `
+        <div class="inline-block px-4 py-2 rounded-lg ${msg.sender === ownerId ? 'bg-gray-200' : 'bg-indigo-600 text-white'}">
+          ${msg.content}
+        </div>
+        <p class="text-xs text-gray-500 mt-1">${new Date(msg.timestamp).toLocaleTimeString()}</p>
+      `;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    // Initialize
+    fetchUsers();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawfectMatch - Find Your Perfect Pet</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#6366f1', secondary: '#f97316' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Login Required Popup -->
+    <div id="loginRequiredPopup"
+        class="fixed inset-0 bg-black bg-opacity-40 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-xs w-full mx-4 flex flex-col items-center">
+            <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-4">
+                <i class="ri-error-warning-line text-3xl text-primary"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Login Required</h3>
+            <p class="text-gray-700 mb-4 text-center">You must be logged in to use this feature.</p>
+            <button id="closeLoginRequiredPopup"
+                class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-primary/90">Close</button>
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+                            <i class="ri-footprint-line"></i>
+                        </div>
+                        <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
+                    </a>
+                    <div class="hidden md:ml-10 md:flex md:space-x-8 items-center">
+                        <a href="#" class="text-primary border-b-2 border-primary px-1 pt-1 font-medium">Home</a>
+                        <a href="search.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
+                            id="searchNavLink">Search Pets</a>
+                        <a href="stories.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
+                            id="storiesNavLink">Pawfect Stories</a>
+                        <a href="#" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
+                            id="aboutNavLink">About Us</a>
+                        <a href="#" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
+                            id="contactNavLink">Contact</a>
+
+                <div class="flex items-center">
+                    <a href="login.html" id="loginNavBtn">
+                        <button
+                            class="bg-white text-primary border border-primary px-4 py-2 !rounded-button font-medium mr-3 whitespace-nowrap hover:bg-gray-50">Log
+                            In</button>
+                    </a>
+                    <a href="register.html" id="registerNavBtn">
+                        <button
+                            class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Register</button>
+                    </a>
+                    <span id="navUsername" class="ml-4 text-primary font-semibold hidden"></span>
+                    <button id="logoutBtn"
+                        class="ml-3 bg-gray-200 text-gray-700 px-4 py-2 rounded-button font-medium hover:bg-gray-300 hidden">Logout</button>
+                    <a href="listing.html">
+                        <button
+                            class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90 ml-3"
+                            id="listPetNavBtn">List a Pet</button>
+                    </a>
+                    <div class="ml-4 flex items-center md:hidden">
+                        <button
+                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-menu-line"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <div class="relative pt-16 overflow-hidden">
+        <div class="w-full h-[600px] bg-cover bg-center"
+            style="background-image: url('https://readdy.ai/api/search-image?query=A%20heartwarming%20scene%20of%20a%20person%20hugging%20a%20cute%20dog%20in%20a%20cozy%20home%20setting.%20The%20image%20has%20a%20soft%2C%20warm%20lighting%20with%20a%20gentle%20gradient%20from%20light%20blue%20to%20white%20on%20the%20left%20side%20for%20text%20placement.%20The%20right%20side%20shows%20the%20person%20and%20dog%20clearly.%20The%20background%20is%20minimal%20and%20clean%20with%20soft%20pastel%20colors.%20The%20overall%20mood%20is%20joyful%20and%20emotional%2C%20perfect%20for%20a%20pet%20adoption%20website.&width=1920&height=1080&seq=hero1&orientation=landscape');">
+            <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent"></div>
+            <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+                <div class="w-full md:w-1/2 text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">Find Your <span
+                            class="text-primary">Pawfect</span> Match</h1>
+                    <p class="text-lg md:text-xl text-gray-700 mb-8">Connect with shelters, NGOs, and rescuers to adopt
+                        your new best friend. Thousands of lovable pets are waiting for their forever homes.</p>
+                    <div class="bg-white p-4 rounded-lg shadow-lg mb-8">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none w-6 h-full flex items-center justify-center">
+                                        <i class="ri-map-pin-line text-gray-400"></i>
+                                    </div>
+                                    <input type="text" placeholder="Enter your location"
+                                        class="pl-10 w-full border-none bg-gray-100 rounded py-2 px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none">
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Pet Type</label>
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none w-6 h-full flex items-center justify-center">
+                                        <i class="ri-bear-smile-line text-gray-400"></i>
+                                    </div>
+                                    <div class="relative">
+                                        <select
+                                            class="pl-10 w-full border-none bg-gray-100 rounded py-2 pr-8 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none appearance-none">
+                                            <option value="">All Pets</option>
+                                            <option value="dog">Dogs</option>
+                                            <option value="cat">Cats</option>
+                                            <option value="bird">Birds</option>
+                                            <option value="small">Small & Furry</option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none w-6 h-full flex items-center justify-center">
+                                            <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                class="bg-primary text-white px-6 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90 self-end">Search</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm flex items-center">
+                            <div
+                                class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary">
+                                <i class="ri-home-heart-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs text-gray-500">Pets Adopted</p>
+                                <p class="text-lg font-bold text-gray-800">12,438</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm flex items-center">
+                            <div
+                                class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary">
+                                <i class="ri-building-2-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs text-gray-500">Partner Shelters</p>
+                                <p class="text-lg font-bold text-gray-800">342</p>
+                            </div>
+                        </div>
+                        <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-sm flex items-center">
+                            <div
+                                class="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary">
+                                <i class="ri-heart-pulse-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-xs text-gray-500">Happy Families</p>
+                                <p class="text-lg font-bold text-gray-800">10,872</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">How PawfectMatch Works</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Finding your new furry friend is as easy as
+                    1-2-3. Our platform connects you directly with shelters and rescuers.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 rounded-lg p-8 text-center relative hover:shadow-md transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl mx-auto mb-6">
+                        <i class="ri-search-line"></i>
+                    </div>
+                    <div
+                        class="absolute -top-3 -left-3 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-bold">
+                        1</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Search</h3>
+                    <p class="text-gray-600">Browse through thousands of pets near you. Filter by type, age, size, and
+                        more to find your perfect companion.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-8 text-center relative hover:shadow-md transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl mx-auto mb-6">
+                        <i class="ri-chat-3-line"></i>
+                    </div>
+                    <div
+                        class="absolute -top-3 -left-3 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-bold">
+                        2</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Chat</h3>
+                    <p class="text-gray-600">Connect directly with shelters or pet owners through our real-time chat
+                        system to learn more about your potential pet.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-8 text-center relative hover:shadow-md transition-all duration-300">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl mx-auto mb-6">
+                        <i class="ri-home-heart-line"></i>
+                    </div>
+                    <div
+                        class="absolute -top-3 -left-3 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-bold">
+                        3</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Adopt</h3>
+                    <p class="text-gray-600">Complete the secure adoption process and welcome your new family member
+                        home with confidence and joy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Featured Pets Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Featured Pets Near You</h2>
+                    <p class="mt-2 text-lg text-gray-600">These lovable companions are looking for their forever homes
+                    </p>
+                </div>
+                <div class="flex space-x-2">
+                    <button
+                        class="bg-white border border-gray-300 !rounded-full px-4 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap">All
+                        Pets</button>
+                    <button
+                        class="bg-primary/10 border border-primary/20 !rounded-full px-4 py-1 text-sm font-medium text-primary hover:bg-primary/20 whitespace-nowrap">Dogs</button>
+                    <button
+                        class="bg-white border border-gray-300 !rounded-full px-4 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap">Cats</button>
+                    <button
+                        class="bg-white border border-gray-300 !rounded-full px-4 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap">Birds</button>
+                    <button
+                        class="bg-white border border-gray-300 !rounded-full px-4 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50 whitespace-nowrap">Small
+                        & Furry</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Pet Card 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300">
+                    <div class="relative h-64">
+                        <img src="https://readdy.ai/api/search-image?query=A%20friendly%20golden%20retriever%20dog%20with%20a%20happy%20expression%2C%20sitting%20on%20a%20clean%20white%20background.%20The%20dog%20has%20soft%20fur%2C%20warm%20eyes%2C%20and%20appears%20healthy%20and%20well-groomed.%20The%20lighting%20is%20bright%20and%20even%2C%20highlighting%20the%20dogs%20golden%20coat.%20The%20image%20is%20high%20quality%20and%20professional%2C%20perfect%20for%20a%20pet%20adoption%20website.&width=500&height=500&seq=pet1&orientation=squarish"
+                            alt="Max - Golden Retriever" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-bold text-gray-900">Max</h3>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Dog</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>Seattle Humane Society, 2.3 miles</span>
+                        </div>
+                        <div class="flex space-x-2 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">2 years</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Male</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Friendly</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary text-white py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">View
+                            Profile</button>
+                    </div>
+                </div>
+                <!-- Pet Card 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300">
+                    <div class="relative h-64">
+                        <img src="https://readdy.ai/api/search-image?query=A%20beautiful%20tabby%20cat%20with%20striking%20green%20eyes%2C%20sitting%20elegantly%20on%20a%20clean%20white%20background.%20The%20cat%20has%20a%20sleek%20coat%20with%20classic%20tabby%20markings%2C%20perky%20ears%2C%20and%20a%20gentle%20expression.%20The%20lighting%20is%20bright%20and%20even%2C%20highlighting%20the%20cats%20features.%20The%20image%20is%20high%20quality%20and%20professional%2C%20perfect%20for%20a%20pet%20adoption%20website.&width=500&height=500&seq=pet2&orientation=squarish"
+                            alt="Luna - Tabby Cat" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-bold text-gray-900">Luna</h3>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Cat</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>Feline Friends Rescue, 1.5 miles</span>
+                        </div>
+                        <div class="flex space-x-2 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">1 year</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Female</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Playful</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary text-white py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">View
+                            Profile</button>
+                    </div>
+                </div>
+                <!-- Pet Card 3 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300">
+                    <div class="relative h-64">
+                        <img src="https://readdy.ai/api/search-image?query=An%20adorable%20small%20white%20bunny%20with%20pink%20ears%20and%20nose%2C%20sitting%20on%20a%20clean%20white%20background.%20The%20bunny%20has%20soft%20fur%2C%20bright%20eyes%2C%20and%20a%20cute%20expression.%20The%20lighting%20is%20bright%20and%20even%2C%20highlighting%20the%20bunnys%20features.%20The%20image%20is%20high%20quality%20and%20professional%2C%20perfect%20for%20a%20pet%20adoption%20website.&width=500&height=500&seq=pet3&orientation=squarish"
+                            alt="Snowball - Bunny" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-bold text-gray-900">Snowball</h3>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Bunny</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>Small Paws Rescue, 3.1 miles</span>
+                        </div>
+                        <div class="flex space-x-2 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">8 months</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Male</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Gentle</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary text-white py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">View
+                            Profile</button>
+                    </div>
+                </div>
+                <!-- Pet Card 4 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300">
+                    <div class="relative h-64">
+                        <img src="https://readdy.ai/api/search-image?query=A%20beautiful%20border%20collie%20mix%20dog%20with%20black%20and%20white%20fur%2C%20sitting%20on%20a%20clean%20white%20background.%20The%20dog%20has%20an%20intelligent%20expression%2C%20perky%20ears%2C%20and%20appears%20healthy%20and%20well-groomed.%20The%20lighting%20is%20bright%20and%20even%2C%20highlighting%20the%20dogs%20distinctive%20coat%20pattern.%20The%20image%20is%20high%20quality%20and%20professional%2C%20perfect%20for%20a%20pet%20adoption%20website.&width=500&height=500&seq=pet4&orientation=squarish"
+                            alt="Bella - Border Collie Mix" class="w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-lg font-bold text-gray-900">Bella</h3>
+                            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Dog</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mb-3">
+                            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span>Happy Tails Shelter, 4.7 miles</span>
+                        </div>
+                        <div class="flex space-x-2 mb-4">
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">3 years</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Female</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Active</span>
+                        </div>
+                        <button
+                            class="w-full bg-primary text-white py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">View
+                            Profile</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 text-center">
+                <button
+                    class="bg-white border border-gray-300 text-gray-700 px-6 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-gray-50">View
+                    All Pets</button>
+            </div>
+        </div>
+    </section>
+    <!-- Success Stories Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Success Stories</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">See how PawfectMatch has brought joy to families
+                    across the country</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Story Card 1 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                    <div class="p-4 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20woman%20in%20her%2030s%20with%20shoulder-length%20brown%20hair%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20friendly%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20profile%20picture.&width=100&height=100&seq=user1&orientation=squarish"
+                                alt="Emily Richardson" class="w-10 h-10 rounded-full object-cover">
+                            <div class="ml-3">
+                                <h3 class="text-sm font-semibold text-gray-900">Emily Richardson</h3>
+                                <p class="text-xs text-gray-500">Portland, OR • April 15, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1">
+                        <img src="https://readdy.ai/api/search-image?query=A%20before%20photo%20of%20a%20slightly%20nervous-looking%20golden%20retriever%20in%20a%20shelter%20environment.%20The%20dog%20appears%20healthy%20but%20somewhat%20unsure%2C%20with%20a%20neutral%20shelter%20background.%20The%20lighting%20is%20standard%20shelter%20lighting%2C%20creating%20a%20before%20adoption%20feel.&width=300&height=200&seq=before1&orientation=landscape"
+                            alt="Before adoption" class="w-full h-40 object-cover">
+                        <img src="https://readdy.ai/api/search-image?query=An%20after%20photo%20of%20the%20same%20golden%20retriever%20looking%20happy%20and%20relaxed%20in%20a%20cozy%20home%20environment.%20The%20dog%20is%20lying%20on%20a%20comfortable%20couch%20with%20toys%20nearby%2C%20clearly%20settled%20in%20and%20content.%20The%20lighting%20is%20warm%20and%20homey%2C%20creating%20a%20joyful%20after%20adoption%20atmosphere.&width=300&height=200&seq=after1&orientation=landscape"
+                            alt="After adoption" class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <p class="text-gray-700 mb-4">Adopted Max last month and he's already the heart of our family!
+                            Can't imagine life without him now. The process through PawfectMatch was so smooth and
+                            supportive.</p>
+                        <div class="flex items-center mb-4">
+                            <button class="flex items-center text-primary">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-heart-fill"></i>
+                                </div>
+                                <span class="text-sm">248</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 ml-4">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-chat-1-line"></i>
+                                </div>
+                                <span class="text-sm">42</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 ml-4">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-share-line"></i>
+                                </div>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <div class="flex items-start">
+                            <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20man%20in%20his%2040s%20with%20short%20dark%20hair%20and%20glasses%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20friendly%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20profile%20picture.&width=32&height=32&seq=user2&orientation=squarish"
+                                alt="James Wilson" class="w-8 h-8 rounded-full object-cover">
+                            <div class="ml-2 bg-gray-50 rounded-lg p-2 flex-1">
+                                <p class="text-xs font-semibold text-gray-900">James Wilson</p>
+                                <p class="text-xs text-gray-700">Max looks so happy! We adopted our pup through
+                                    PawfectMatch too and had the same amazing experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Story Card 2 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                    <div class="p-4 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20man%20in%20his%20late%2020s%20with%20short%20black%20hair%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20friendly%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20profile%20picture.&width=100&height=100&seq=user3&orientation=squarish"
+                                alt="Michael Chen" class="w-10 h-10 rounded-full object-cover">
+                            <div class="ml-3">
+                                <h3 class="text-sm font-semibold text-gray-900">Michael Chen</h3>
+                                <p class="text-xs text-gray-500">Chicago, IL • April 2, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1">
+                        <img src="https://readdy.ai/api/search-image?query=A%20before%20photo%20of%20a%20shy-looking%20tabby%20cat%20in%20a%20shelter%20cage%20or%20environment.%20The%20cat%20appears%20healthy%20but%20somewhat%20withdrawn%2C%20with%20a%20neutral%20shelter%20background.%20The%20lighting%20is%20standard%20shelter%20lighting%2C%20creating%20a%20before%20adoption%20feel.&width=300&height=200&seq=before2&orientation=landscape"
+                            alt="Before adoption" class="w-full h-40 object-cover">
+                        <img src="https://readdy.ai/api/search-image?query=An%20after%20photo%20of%20the%20same%20tabby%20cat%20looking%20relaxed%20and%20content%20in%20a%20sunny%20window%20sill%20at%20home.%20The%20cat%20is%20lounging%20comfortably%2C%20clearly%20settled%20in%20and%20happy.%20The%20lighting%20is%20warm%20natural%20sunlight%2C%20creating%20a%20joyful%20after%20adoption%20atmosphere.&width=300&height=200&seq=after2&orientation=landscape"
+                            alt="After adoption" class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <p class="text-gray-700 mb-4">Luna was so shy at the shelter, but now she owns our apartment!
+                            The chat feature on PawfectMatch helped me learn so much about her personality before
+                            adopting. Forever grateful! ❤️</p>
+                        <div class="flex items-center mb-4">
+                            <button class="flex items-center text-primary">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-heart-fill"></i>
+                                </div>
+                                <span class="text-sm">312</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 ml-4">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-chat-1-line"></i>
+                                </div>
+                                <span class="text-sm">56</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 ml-4">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-share-line"></i>
+                                </div>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <div class="flex items-start">
+                            <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20woman%20in%20her%2020s%20with%20long%20blonde%20hair%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20friendly%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20profile%20picture.&width=32&height=32&seq=user4&orientation=squarish"
+                                alt="Sarah Johnson" class="w-8 h-8 rounded-full object-cover">
+                            <div class="ml-2 bg-gray-50 rounded-lg p-2 flex-1">
+                                <p class="text-xs font-semibold text-gray-900">Sarah Johnson</p>
+                                <p class="text-xs text-gray-700">What a transformation! She looks so happy now. Cats
+                                    really do choose their humans. 😺</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Story Card 3 -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+                    <div class="p-4 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20woman%20in%20her%2050s%20with%20short%20gray%20hair%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20friendly%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20profile%20picture.&width=100&height=100&seq=user5&orientation=squarish"
+                                alt="Patricia Rodriguez" class="w-10 h-10 rounded-full object-cover">
+                            <div class="ml-3">
+                                <h3 class="text-sm font-semibold text-gray-900">Patricia Rodriguez</h3>
+                                <p class="text-xs text-gray-500">Miami, FL • March 28, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1">
+                        <img src="https://readdy.ai/api/search-image?query=A%20before%20photo%20of%20a%20small%20mixed%20breed%20dog%20looking%20thin%20and%20nervous%20in%20a%20shelter%20environment.%20The%20dog%20appears%20healthy%20but%20somewhat%20unsure%2C%20with%20a%20neutral%20shelter%20background.%20The%20lighting%20is%20standard%20shelter%20lighting%2C%20creating%20a%20before%20adoption%20feel.&width=300&height=200&seq=before3&orientation=landscape"
+                            alt="Before adoption" class="w-full h-40 object-cover">
+                        <img src="https://readdy.ai/api/search-image?query=An%20after%20photo%20of%20the%20same%20small%20mixed%20breed%20dog%20looking%20healthy%2C%20happy%20and%20playful%20in%20a%20backyard%20setting.%20The%20dog%20is%20running%20with%20a%20toy%2C%20clearly%20energetic%20and%20content.%20The%20lighting%20is%20bright%20natural%20sunlight%2C%20creating%20a%20joyful%20after%20adoption%20atmosphere.&width=300&height=200&seq=after3&orientation=landscape"
+                            alt="After adoption" class="w-full h-40 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <p class="text-gray-700 mb-4">After losing my previous dog, I wasn't sure if I was ready. But
+                            Charlie stole my heart on PawfectMatch. The verified health info gave me confidence, and now
+                            he's my little shadow everywhere I go!</p>
+                        <div class="flex items-center mb-4">
+                            <button class="flex items-center text-primary">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-heart-fill"></i>
+                                </div>
+                                <span class="text-sm">189</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 ml-4">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-chat-1-line"></i>
+                                </div>
+                                <span class="text-sm">27</span>
+                            </button>
+                            <button class="flex items-center text-gray-500 ml-4">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1">
+                                    <i class="ri-share-line"></i>
+                                </div>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <div class="flex items-start">
+                            <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20older%20man%20in%20his%2060s%20with%20white%20hair%20and%20beard%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20friendly%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20profile%20picture.&width=32&height=32&seq=user6&orientation=squarish"
+                                alt="Robert Taylor" class="w-8 h-8 rounded-full object-cover">
+                            <div class="ml-2 bg-gray-50 rounded-lg p-2 flex-1">
+                                <p class="text-xs font-semibold text-gray-900">Robert Taylor</p>
+                                <p class="text-xs text-gray-700">What a beautiful story, Patricia. Sometimes the right
+                                    pet comes along just when we need them most.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 text-center">
+                <button
+                    class="bg-white border border-gray-300 text-gray-700 px-6 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-gray-50">View
+                    More Stories</button>
+            </div>
+        </div>
+    </section>
+    <!-- NGO/Shelter Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:flex items-center gap-12">
+                <div class="lg:w-1/2 mb-8 lg:mb-0">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Are You a Shelter or Rescue Organization?</h2>
+                    <p class="text-lg text-gray-600 mb-6">Join our network of trusted partners and help more pets find
+                        their forever homes. PawfectMatch provides shelters and rescues with powerful tools to showcase
+                        their animals and connect with potential adopters.</p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Verified Profile</h3>
+                                <p class="text-gray-600">Build trust with a verified shelter profile that showcases your
+                                    mission and work.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Easy Pet Management</h3>
+                                <p class="text-gray-600">Upload and manage pet profiles with detailed information and
+                                    photos.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Direct Communication</h3>
+                                <p class="text-gray-600">Chat directly with potential adopters to answer questions and
+                                    arrange meetings.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Donation Platform</h3>
+                                <p class="text-gray-600">Accept donations directly through your profile to support your
+                                    rescue efforts.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button
+                            class="bg-primary text-white px-6 py-3 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Register
+                            Your Organization</button>
+                        <button
+                            class="bg-white border border-gray-300 text-gray-700 px-6 py-3 !rounded-button font-medium whitespace-nowrap hover:bg-gray-50">Learn
+                            More</button>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <img src="https://readdy.ai/api/search-image?query=A%20warm%2C%20professional%20image%20of%20shelter%20volunteers%20and%20staff%20caring%20for%20animals.%20The%20scene%20shows%20diverse%20people%20working%20together%20in%20a%20clean%2C%20modern%20shelter%20environment%20with%20dogs%20and%20cats.%20The%20staff%20are%20wearing%20matching%20t-shirts%20with%20a%20shelter%20logo.%20The%20atmosphere%20is%20positive%20and%20hopeful%2C%20with%20good%20lighting%20and%20a%20sense%20of%20compassion%20and%20professionalism.%20The%20image%20conveys%20trust%20and%20dedication%20to%20animal%20welfare.&width=600&height=500&seq=shelter&orientation=landscape"
+                        alt="Shelter partners" class="w-full h-auto rounded-lg shadow-md">
+                    <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div
+                            class="bg-white p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center">
+                            <div class="w-12 h-12 flex items-center justify-center text-primary text-2xl mb-2">
+                                <i class="ri-building-2-line"></i>
+                            </div>
+                            <h4 class="text-sm font-semibold text-gray-900">342</h4>
+                            <p class="text-xs text-gray-500">Partner Shelters</p>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center">
+                            <div class="w-12 h-12 flex items-center justify-center text-primary text-2xl mb-2">
+                                <i class="ri-group-line"></i>
+                            </div>
+                            <h4 class="text-sm font-semibold text-gray-900">128</h4>
+                            <p class="text-xs text-gray-500">Rescue Groups</p>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center">
+                            <div class="w-12 h-12 flex items-center justify-center text-primary text-2xl mb-2">
+                                <i class="ri-heart-pulse-line"></i>
+                            </div>
+                            <h4 class="text-sm font-semibold text-gray-900">12,438</h4>
+                            <p class="text-xs text-gray-500">Pets Adopted</p>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-lg shadow-sm flex flex-col items-center justify-center text-center">
+                            <div class="w-12 h-12 flex items-center justify-center text-primary text-2xl mb-2">
+                                <i class="ri-hand-heart-line"></i>
+                            </div>
+                            <h4 class="text-sm font-semibold text-gray-900">$1.2M</h4>
+                            <p class="text-xs text-gray-500">Donations Raised</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Chat Feature Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:flex items-center gap-12">
+                <div class="lg:w-1/2 order-2 lg:order-1">
+                    <div class="bg-gray-50 rounded-2xl shadow-lg p-4 max-w-md mx-auto">
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                            <div class="bg-primary p-3 flex items-center">
+                                <div class="w-10 h-10 flex items-center justify-center bg-white/20 rounded-full">
+                                    <i class="ri-chat-3-fill text-white"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-semibold text-white">PawfectMatch Chat</h3>
+                                    <p class="text-xs text-white/80">Connect with shelters and pet owners</p>
+                                </div>
+                            </div>
+                            <div class="h-80 overflow-y-auto p-4 bg-gray-50">
+                                <div class="flex items-center mb-4">
+                                    <img src="https://readdy.ai/api/search-image?query=A%20professional%20logo%20for%20Seattle%20Humane%20Society%2C%20featuring%20a%20simple%2C%20modern%20design%20with%20an%20animal%20silhouette.%20The%20logo%20is%20on%20a%20clean%20background%2C%20suitable%20for%20a%20profile%20picture%20in%20a%20chat%20application.&width=40&height=40&seq=shelter_logo&orientation=squarish"
+                                        alt="Seattle Humane Society" class="w-8 h-8 rounded-full">
+                                    <div class="ml-2">
+                                        <h4 class="text-xs font-semibold text-gray-900">Seattle Humane Society</h4>
+                                        <p class="text-xs text-gray-500">Online</p>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col space-y-3">
+                                    <div class="flex items-end">
+                                        <div class="bg-white rounded-lg rounded-bl-none p-3 max-w-xs shadow-sm">
+                                            <p class="text-sm text-gray-700">Hi there! I saw you were interested in Max,
+                                                our Golden Retriever. He's such a sweetheart!</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 ml-2">10:32 AM</span>
+                                    </div>
+                                    <div class="flex items-end justify-end">
+                                        <span class="text-xs text-gray-400 mr-2">10:34 AM</span>
+                                        <div class="bg-primary text-white rounded-lg rounded-br-none p-3 max-w-xs">
+                                            <p class="text-sm">Yes! I've been looking for a Golden Retriever. Can you
+                                                tell me more about his temperament and energy level?</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <div class="bg-white rounded-lg rounded-bl-none p-3 max-w-xs shadow-sm">
+                                            <p class="text-sm text-gray-700">Max is 2 years old and has a medium energy
+                                                level. He's great with kids and other dogs, and loves to play fetch!</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 ml-2">10:36 AM</span>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <div class="bg-white rounded-lg rounded-bl-none p-3 max-w-xs shadow-sm">
+                                            <p class="text-sm text-gray-700">Here's a video of him playing in our yard
+                                                yesterday:</p>
+                                            <div class="mt-2 bg-gray-100 rounded p-2 flex items-center">
+                                                <div
+                                                    class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded text-primary">
+                                                    <i class="ri-video-line"></i>
+                                                </div>
+                                                <span class="ml-2 text-xs text-gray-700">Max_playing.mp4</span>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs text-gray-400 ml-2">10:37 AM</span>
+                                    </div>
+                                    <div class="flex items-end justify-end">
+                                        <span class="text-xs text-gray-400 mr-2">10:39 AM</span>
+                                        <div class="bg-primary text-white rounded-lg rounded-br-none p-3 max-w-xs">
+                                            <p class="text-sm">He's adorable! I'd love to meet him. Do you have any
+                                                availability this weekend for a visit?</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <div class="bg-white rounded-lg rounded-bl-none p-3 max-w-xs shadow-sm">
+                                            <p class="text-sm text-gray-700">We're open 10am-4pm on Saturday and Sunday.
+                                                Would you like to schedule a meet-and-greet?</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 ml-2">10:41 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 border-t border-gray-100">
+                                <div class="flex items-center">
+                                    <div class="flex-1">
+                                        <input type="text" placeholder="Type a message..."
+                                            class="w-full border-none bg-gray-100 rounded-full py-2 px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none">
+                                    </div>
+                                    <div class="ml-3 flex space-x-2">
+                                        <button
+                                            class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200">
+                                            <i class="ri-image-line"></i>
+                                        </button>
+                                        <button
+                                            class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white">
+                                            <i class="ri-send-plane-fill"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 mb-8 lg:mb-0 order-1 lg:order-2">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Real-Time Chat with Shelters and Pet Owners</h2>
+                    <p class="text-lg text-gray-600 mb-6">Our integrated chat system makes it easy to connect directly
+                        with shelters, rescues, and individual pet owners. Ask questions, share photos, and build
+                        relationships before meeting in person.</p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Instant Connection</h3>
+                                <p class="text-gray-600">Chat directly with shelters and pet owners to learn more about
+                                    available pets.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Media Sharing</h3>
+                                <p class="text-gray-600">Exchange photos and videos to get a better sense of the pet's
+                                    personality.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Schedule Visits</h3>
+                                <p class="text-gray-600">Arrange meet-and-greets and adoption appointments directly
+                                    through the chat.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="w-6 h-6 flex items-center justify-center text-primary mt-0.5">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-base font-semibold text-gray-900">Secure & Private</h3>
+                                <p class="text-gray-600">All conversations are encrypted and private, protecting your
+                                    personal information.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="startChatBtn"
+                        class="bg-primary text-white px-6 py-3 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Start
+                        Chatting</button>
+                    <!-- Chat Modal -->
+                    <!-- WhatsApp-style Chat Modal (dynamic) -->
+                    <div id="chatModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+                        <div class="bg-white rounded-lg w-full max-w-3xl mx-4 flex shadow-lg overflow-hidden">
+                            <!-- User List -->
+                            <div class="w-1/3 border-r border-gray-200 bg-gray-50 flex flex-col">
+                                <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+                                    <span class="font-bold text-lg text-gray-900">Chats</span>
+                                    <button id="closeChatModal" class="text-gray-500 hover:text-gray-700">
+                                        <i class="ri-close-line text-2xl"></i>
+                                    </button>
+                                </div>
+                                <div class="p-2">
+                                    <input id="chatUserSearch" type="text" placeholder="Search users..." class="w-full border-none bg-gray-100 rounded-lg py-2 px-4 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none" />
+                                </div>
+                                <div id="chatUserList" class="flex-1 overflow-y-auto">
+                                    <!-- User list will be rendered here -->
+                                </div>
+                            </div>
+                            <!-- Chat Window -->
+                            <div class="flex-1 flex flex-col">
+                                <div class="p-4 border-b border-gray-100 flex items-center">
+                                    <img id="currentUserProfilePic" src="" alt="Me" class="w-10 h-10 rounded-full object-cover mr-3 hidden" />
+                                    <span id="currentUsername" class="font-semibold text-primary"></span>
+                                    <span class="ml-2 text-xs text-gray-500">(You)</span>
+                                </div>
+                                <div id="chatMessageList" class="flex-1 overflow-y-auto p-4 bg-gray-50">
+                                    <!-- Messages will be rendered here -->
+                                </div>
+                                <div class="p-3 border-t border-gray-100">
+                                  <form id="chatInputForm" class="flex items-center">
+                                    <button type="button" disabled class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full text-gray-400 cursor-not-allowed">
+                                      <i class="ri-image-line"></i>
+                                    </button>
+                                    <input id="chatInput" type="text" placeholder="Type a message..." autocomplete="off" class="flex-1 border-none bg-gray-100 rounded-full py-2 px-4 text-sm mx-2 focus:ring-2 focus:ring-primary/20 focus:outline-none" />
+                                    <button type="submit" class="w-8 h-8 flex items-center justify-center bg-primary rounded-full text-white">
+                                      <i class="ri-send-plane-fill"></i>
+                                    </button>
+                                  </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">What Our Users Say</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Hear from adopters and shelters who've found
+                    success with PawfectMatch</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-primary">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"PawfectMatch made finding our perfect dog so easy! The verified
+                        health information gave us confidence, and the chat feature allowed us to ask all our questions
+                        before meeting in person. Couldn't be happier with our new family member!"</p>
+                    <div class="flex items-center">
+                        <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20couple%20in%20their%2030s%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20friendly%20and%20approachable%20expressions.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20testimonial.&width=60&height=60&seq=couple&orientation=squarish"
+                            alt="Jennifer & David Thompson" class="w-12 h-12 rounded-full object-cover">
+                        <div class="ml-3">
+                            <h3 class="text-sm font-semibold text-gray-900">Jennifer & David Thompson</h3>
+                            <p class="text-xs text-gray-500">Seattle, WA • Adopted Max</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-primary">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"As a shelter director, PawfectMatch has revolutionized how we connect
+                        animals with adopters. The platform's verification process ensures serious inquiries, and we've
+                        seen adoption rates increase by 40% since joining. The donation feature has also been a
+                        game-changer for our funding."</p>
+                    <div class="flex items-center">
+                        <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20woman%20in%20her%2040s%20with%20shoulder-length%20brown%20hair%20wearing%20professional%20attire%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20confident%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20testimonial%20from%20a%20shelter%20director.&width=60&height=60&seq=director&orientation=squarish"
+                            alt="Maria Gonzalez" class="w-12 h-12 rounded-full object-cover">
+                        <div class="ml-3">
+                            <h3 class="text-sm font-semibold text-gray-900">Maria Gonzalez</h3>
+                            <p class="text-xs text-gray-500">Director, Happy Tails Shelter</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="text-primary">
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                            <i class="ri-star-fill"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6">"After losing my cat of 15 years, I wasn't sure I was ready for
+                        another. But browsing PawfectMatch, I found Luna, who needed a quiet home. The detailed
+                        personality profile helped me know she'd be a good fit, and now she's my constant companion. The
+                        process was respectful and supportive."</p>
+                    <div class="flex items-center">
+                        <img src="https://readdy.ai/api/search-image?query=A%20professional%20headshot%20of%20a%20smiling%20older%20man%20in%20his%2060s%20with%20gray%20hair%20and%20glasses%2C%20on%20a%20neutral%20background.%20The%20image%20is%20well-lit%2C%20showing%20a%20kind%20and%20approachable%20expression.%20The%20photo%20is%20cropped%20to%20show%20head%20and%20shoulders%2C%20suitable%20for%20a%20testimonial.&width=60&height=60&seq=older_man&orientation=squarish"
+                            alt="Thomas Wilson" class="w-12 h-12 rounded-full object-cover">
+                        <div class="ml-3">
+                            <h3 class="text-sm font-semibold text-gray-900">Thomas Wilson</h3>
+                            <p class="text-xs text-gray-500">Portland, OR • Adopted Luna</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 text-center">
+                <button
+                    class="bg-white border border-gray-300 text-gray-700 px-6 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-gray-50">View
+                    More Stories</button>
+            </div>
+        </div>
+    </section>
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-primary/10 rounded-2xl p-8 md:p-12">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Stay Updated on New Pets</h2>
+                    <p class="text-lg text-gray-700 mb-8">Subscribe to our newsletter to receive updates on newly
+                        available pets that match your preferences, adoption tips, and success stories.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                        <input type="email" placeholder="Enter your email address"
+                            class="flex-1 border-none bg-white shadow-sm rounded-lg py-3 px-4 text-gray-700 focus:ring-2 focus:ring-primary/20 focus:outline-none">
+                        <button
+                            class="bg-primary text-white px-6 py-3 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Subscribe</button>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-500">By subscribing, you agree to receive email updates from
+                        PawfectMatch. You can unsubscribe at any time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+                <div class="lg:col-span-2">
+                    <a href="#" class="flex items-center mb-6">
+                        <div class="w-10 h-10 flex items-center justify-center text-white text-2xl">
+                            <i class="ri-footprint-line"></i>
+                        </div>
+                        <span class="ml-2 text-2xl text-white logo">PawfectMatch</span>
+                    </a>
+                    <p class="text-gray-400 mb-6">Connecting loving homes with pets in need. Our mission is to make pet
+                        adoption simple, trustworthy, and joyful for everyone involved.</p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full text-gray-400 hover:text-white hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full text-gray-400 hover:text-white hover:bg-primary transition-colors">
+                            <i class="ri-twitter-x-fill"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full text-gray-400 hover:text-white hover:bg-primary transition-colors">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full text-gray-400 hover:text-white hover:bg-primary transition-colors">
+                            <i class="ri-youtube-fill"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Search Pets</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Success Stories</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">For Shelters</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Register
+                                Organization</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Partner Benefits</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Resources</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Success Stories</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Contact Us</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span class="ml-2 text-gray-400">123 Pet Street, Seattle, WA 98101</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <span class="ml-2 text-gray-400">hello@pawfectmatch.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <span class="ml-2 text-gray-400">(206) 555-7890</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 PawfectMatch. All rights reserved.</p>
+                <div class="flex flex-wrap gap-4 text-sm text-gray-400">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Chat Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <a href="chat.html" id="floatingChatBtn" class="w-14 h-14 bg-primary rounded-full shadow-lg flex items-center justify-center text-white text-2xl hover:bg-primary/90 relative">
+            <i class="ri-chat-3-fill"></i>
+            <span id="chatNotificationBadge" class="hidden absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">0</span>
+        </a>
+    </div>
+    <!-- Consolidated Custom JS -->
+    <script>
+    // --- Chat Notification Badge & Chat Modal Integration ---
+    function updateChatBadge() {
+        const badge = document.getElementById('chatNotificationBadge');
+        const token = localStorage.getItem('token');
+        if (!badge) return;
+        if (!token) {
+            badge.classList.add('hidden');
+            return;
+        }
+        fetch('/api/chat/unread-count', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data && typeof data.total === 'number' && data.total > 0) {
+                badge.textContent = data.total;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        })
+        .catch(() => {
+            badge.classList.add('hidden');
+        });
+    }
+    document.addEventListener('DOMContentLoaded', updateChatBadge);
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'chat-unread-sync') updateChatBadge();
+    });
+
+    // --- Chat Modal Logic ---
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatBtn = document.getElementById('floatingChatBtn');
+        const chatModal = document.getElementById('chatModal');
+        const closeChatModal = document.getElementById('closeChatModal');
+        // Show current user info in chat modal
+        function showCurrentUserInChatModal() {
+            const username = localStorage.getItem('username');
+            const profilePic = localStorage.getItem('profilePic');
+            const usernameSpan = document.getElementById('currentUsername');
+            const profileImg = document.getElementById('currentUserProfilePic');
+            if (usernameSpan) usernameSpan.textContent = username || '';
+            if (profileImg) {
+                if (profilePic) {
+                    profileImg.src = profilePic;
+                    profileImg.classList.remove('hidden');
+                } else {
+                    // fallback to avatar
+                    profileImg.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(username || 'User');
+                    profileImg.classList.remove('hidden');
+                }
+            }
+        }
+        if (chatBtn && chatModal) {
+            chatBtn.addEventListener('click', function () {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    showLoginRequiredPopup();
+                    return;
+                }
+                showCurrentUserInChatModal();
+                chatModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        if (closeChatModal && chatModal) {
+            closeChatModal.addEventListener('click', function () {
+                chatModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+            chatModal.addEventListener('click', function (e) {
+                if (e.target === chatModal) {
+                    chatModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+    });
+
+    // --- Login Required Popup & Feature Gating ---
+    function showLoginRequiredPopup() {
+        const popup = document.getElementById('loginRequiredPopup');
+        if (popup) popup.classList.remove('hidden');
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        // Block "List a Pet" for logged-out users
+        const listPetBtn = document.getElementById('listPetNavBtn');
+        function enforceListPetAuth() {
+            const token = localStorage.getItem('token');
+            if (listPetBtn) {
+                if (!token) {
+                    listPetBtn.addEventListener('click', listPetHandler);
+                    listPetBtn.setAttribute('href', '#');
+                    listPetBtn.classList.add('cursor-not-allowed');
+                } else {
+                    listPetBtn.removeEventListener('click', listPetHandler);
+                    listPetBtn.classList.remove('cursor-not-allowed');
+                }
+            }
+        }
+        function listPetHandler(e) {
+            e.preventDefault();
+            showLoginRequiredPopup();
+        }
+        enforceListPetAuth();
+        // Close popup logic
+        const popup = document.getElementById('loginRequiredPopup');
+        const closeBtn = document.getElementById('closeLoginRequiredPopup');
+        if (closeBtn && popup) {
+            closeBtn.addEventListener('click', function () {
+                popup.classList.add('hidden');
+            });
+        }
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && popup && !popup.classList.contains('hidden')) {
+                popup.classList.add('hidden');
+            }
+        });
+    });
+    // Disable nav and main features if not logged in
+    document.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+        const searchNav = document.getElementById('searchNavLink');
+        const storiesNav = document.getElementById('storiesNavLink');
+        const aboutNav = document.getElementById('aboutNavLink');
+        const contactNav = document.getElementById('contactNavLink');
+        if (!token) {
+            if (searchNav) searchNav.addEventListener('click', function (e) { e.preventDefault(); showLoginRequiredPopup(); });
+            if (storiesNav) storiesNav.addEventListener('click', function (e) { e.preventDefault(); showLoginRequiredPopup(); });
+            if (aboutNav) aboutNav.addEventListener('click', function (e) { e.preventDefault(); showLoginRequiredPopup(); });
+            if (contactNav) contactNav.addEventListener('click', function (e) { e.preventDefault(); showLoginRequiredPopup(); });
+        }
+        // Disable hero search if not logged in
+        const searchButton = document.querySelector('.bg-primary.text-white.px-6.py-2');
+        if (!token && searchButton) {
+            searchButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                showLoginRequiredPopup();
+            });
+        }
+    });
+
+    // --- Favorite Button Logic for Pet Cards ---
+    function isLoggedIn() {
+        return !!localStorage.getItem('token');
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        // Custom checkbox functionality
+        const checkboxes = document.querySelectorAll('.custom-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('click', function () {
+                this.classList.toggle('checked');
+            });
+        });
+        // Favorite button logic
+        document.querySelectorAll('.pet-card').forEach(function(card) {
+            const favBtn = card.querySelector('.favBtn');
+            const toast = card.querySelector('.toast');
+            const loginModal = card.querySelector('.loginModal');
+            let isFavorited = false;
+            if (favBtn) {
+                favBtn.addEventListener('click', function (e) {
+                    if (!isLoggedIn()) {
+                        e.preventDefault();
+                        if (loginModal) loginModal.classList.remove('hidden');
+                        return;
+                    }
+                    isFavorited = !isFavorited;
+                    const icon = favBtn.querySelector('i');
+                    if (isFavorited) {
+                        icon.classList.remove('ri-heart-line');
+                        icon.classList.add('ri-heart-fill');
+                        favBtn.classList.add('text-primary');
+                        if (toast) {
+                            toast.classList.remove('translate-x-full');
+                            setTimeout(() => toast.classList.add('translate-x-full'), 2000);
+                        }
+                    } else {
+                        icon.classList.remove('ri-heart-fill');
+                        icon.classList.add('ri-heart-line');
+                        favBtn.classList.remove('text-primary');
+                    }
+                });
+            }
+            // Close login modal when clicking outside
+            if (loginModal) {
+                loginModal.addEventListener('click', function (e) {
+                    if (e.target === loginModal) loginModal.classList.add('hidden');
+                });
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') loginModal.classList.add('hidden');
+                });
+            }
+            // View favorites button
+            const viewFavoritesBtn = card.querySelector('.viewFavoritesBtn');
+            if (viewFavoritesBtn && toast) {
+                viewFavoritesBtn.addEventListener('click', function () {
+                    // Add navigation to favorites page
+                    console.log('Navigate to favorites page');
+                    toast.classList.add('translate-x-full');
+                });
+            }
+        });
+    });
+
+    // --- Auth-based UI logic for nav and hero search ---
+    document.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username');
+        const loginBtn = document.getElementById('loginNavBtn');
+        const registerBtn = document.getElementById('registerNavBtn');
+        const listPetBtn = document.getElementById('listPetNavBtn');
+        const navUsername = document.getElementById('navUsername');
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (token) {
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (registerBtn) registerBtn.style.display = 'none';
+            if (navUsername && username) {
+                navUsername.textContent = username;
+                navUsername.classList.remove('hidden');
+            }
+            if (logoutBtn) logoutBtn.classList.remove('hidden');
+            if (listPetBtn) listPetBtn.style.display = '';
+        } else {
+            if (listPetBtn) {
+                listPetBtn.style.display = '';
+                listPetBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showLoginRequiredPopup();
+                });
+            }
+            if (navUsername) navUsername.classList.add('hidden');
+            if (logoutBtn) logoutBtn.classList.add('hidden');
+            // Disable search in hero section
+            const searchButton = document.querySelector('.bg-primary.text-white.px-6.py-2');
+            if (searchButton) {
+                searchButton.disabled = true;
+                searchButton.classList.add('opacity-50', 'cursor-not-allowed');
+                searchButton.title = 'Login to use search';
+            }
+        }
+        // Logout button logic
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function () {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                window.location.reload();
+            });
+        }
+    });
+
+    // --- Misc UI logic ---
+    document.addEventListener('DOMContentLoaded', function () {
+        // Custom switch functionality
+        const switches = document.querySelectorAll('.custom-switch input');
+        switches.forEach(switchInput => {
+            switchInput.addEventListener('change', function () {
+                // Switch state is handled by CSS
+            });
+        });
+        // Mobile menu toggle (if present)
+        const menuButton = document.querySelector('button[aria-label="Menu"]');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        // Chat modal search and chat now logic
+        const shelterSearch = document.getElementById('shelterSearch');
+        const shelterList = document.getElementById('shelterList');
+        if (shelterSearch && shelterList) {
+            shelterSearch.addEventListener('input', function (e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const shelters = shelterList.querySelectorAll('.bg-gray-50');
+                shelters.forEach(shelter => {
+                    const shelterName = shelter.querySelector('h4').textContent.toLowerCase();
+                    const shelterDesc = shelter.querySelector('p').textContent.toLowerCase();
+                    if (shelterName.includes(searchTerm) || shelterDesc.includes(searchTerm)) {
+                        shelter.style.display = '';
+                    } else {
+                        shelter.style.display = 'none';
+                    }
+                });
+            });
+            // Chat Now button functionality
+            const chatNowButtons = shelterList.querySelectorAll('button');
+            chatNowButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const shelterName = this.closest('.bg-gray-50').querySelector('h4').textContent;
+                    if (chatModal) chatModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    // Here you can add logic to open the chat interface with the selected shelter
+                });
+            });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Hero search logic
+        const searchButton = document.querySelector('.bg-primary.text-white.px-6.py-2');
+        const locationInput = document.querySelector('input[placeholder="Enter your location"]');
+        const petTypeSelect = document.querySelector('select');
+        if (searchButton && locationInput && petTypeSelect) {
+            searchButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                const location = encodeURIComponent(locationInput.value.trim());
+                const petType = encodeURIComponent(petTypeSelect.value);
+                let query = [];
+                if (location) query.push(`location=${location}`);
+                if (petType) query.push(`type=${petType}`);
+                const queryString = query.length ? `?${query.join('&')}` : '';
+                window.location.href = `search.html${queryString}`;
+            });
+        }
+    });
+    </script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
+<!-- WhatsApp-style Chat JS -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+// --- WhatsApp-style Chat Logic ---
+const chatUserList = document.getElementById('chatUserList');
+const chatMessageList = document.getElementById('chatMessageList');
+const chatInputForm = document.getElementById('chatInputForm');
+const chatInput = document.getElementById('chatInput');
+const chatProfilePic = document.getElementById('chatProfilePic');
+const chatUsername = document.getElementById('chatUsername');
+let currentChatUser = null;
+let socket = null;
+
+function getToken() {
+  return localStorage.getItem('token');
+}
+function getUsername() {
+  return localStorage.getItem('username');
+}
+
+// Connect to Socket.IO if logged in
+function connectSocket() {
+  if (!socket && getToken()) {
+    socket = io('http://localhost:5000', {
+      auth: { token: getToken() }
+    });
+    // Join own room for real-time
+    fetch('/api/auth/me', { headers: { 'Authorization': 'Bearer ' + getToken() } })
+      .then(res => res.json())
+      .then(user => {
+        if (user && user._id) socket.emit('join', user._id);
+      });
+    socket.on('receive_message', (msg) => {
+      if (currentChatUser && msg.sender === currentChatUser._id) {
+        appendMessage(msg, false);
+        scrollMessagesToBottom();
+      }
+      updateChatBadge();
+      loadUserList();
+    });
+    socket.on('message_sent', (msg) => {
+      if (currentChatUser && msg.receiver === currentChatUser._id) {
+        appendMessage(msg, true);
+        scrollMessagesToBottom();
+      }
+    });
+  }
+}
+
+// Load chat user list
+function loadUserList() {
+  if (!chatUserList) return;
+  fetch('/api/chat/users', { headers: { 'Authorization': 'Bearer ' + getToken() } })
+    .then(res => res.json())
+    .then(users => {
+      chatUserList.innerHTML = '';
+      users.forEach(user => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center p-3 hover:bg-primary/10 cursor-pointer border-b border-gray-100';
+        div.innerHTML = `
+          <img src="${user.profilePic || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.username)}" class="w-10 h-10 rounded-full object-cover mr-3" />
+          <div class="flex-1">
+            <div class="font-semibold text-gray-900">${user.username}</div>
+            <div class="text-xs text-gray-500 line-clamp-1">${user.lastMessage ? user.lastMessage.content : ''}</div>
+          </div>
+          <span class="text-xs text-gray-400">${user.lastMessage ? formatTime(user.lastMessage.timestamp) : ''}</span>
+          ${user.unreadCount > 0 ? `<span class="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">${user.unreadCount}</span>` : ''}
+        `;
+        div.onclick = () => selectChatUser(user);
+        chatUserList.appendChild(div);
+      });
+    });
+}
+
+function selectChatUser(user) {
+  currentChatUser = user;
+  chatProfilePic.src = user.profilePic || ('https://ui-avatars.com/api/?name=' + encodeURIComponent(user.username));
+  chatProfilePic.classList.remove('hidden');
+  chatUsername.textContent = user.username;
+  chatMessageList.innerHTML = '';
+  fetch(`/api/chat/messages/${user._id}`, { headers: { 'Authorization': 'Bearer ' + getToken() } })
+    .then(res => res.json())
+    .then(messages => {
+      messages.forEach(msg => appendMessage(msg, msg.sender === getUserId()));
+      scrollMessagesToBottom();
+    });
+}
+
+function appendMessage(msg, isSender) {
+  const div = document.createElement('div');
+  div.className = 'flex items-end mb-2 ' + (isSender ? 'justify-end' : '');
+  div.innerHTML = isSender
+    ? `<span class="text-xs text-gray-400 mr-2">${formatTime(msg.timestamp)}</span><div class="bg-primary text-white rounded-lg rounded-br-none p-3 max-w-xs"><p class="text-sm">${escapeHtml(msg.content)}</p></div>`
+    : `<div class="bg-white rounded-lg rounded-bl-none p-3 max-w-xs shadow-sm"><p class="text-sm text-gray-700">${escapeHtml(msg.content)}</p></div><span class="text-xs text-gray-400 ml-2">${formatTime(msg.timestamp)}</span>`;
+  chatMessageList.appendChild(div);
+}
+
+function scrollMessagesToBottom() {
+  chatMessageList.scrollTop = chatMessageList.scrollHeight;
+}
+
+function formatTime(ts) {
+  if (!ts) return '';
+  const d = new Date(ts);
+  return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"]/g, function(c) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+  });
+}
+
+function getUserId() {
+  // Fetch user id from /api/auth/me (sync for now)
+  let id = localStorage.getItem('userId');
+  if (id) return id;
+  const req = new XMLHttpRequest();
+  req.open('GET', '/api/auth/me', false);
+  req.setRequestHeader('Authorization', 'Bearer ' + getToken());
+  req.send(null);
+  if (req.status === 200) {
+    const user = JSON.parse(req.responseText);
+    if (user && user._id) {
+      localStorage.setItem('userId', user._id);
+      return user._id;
+    }
+  }
+  return null;
+}
+
+if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+  document.addEventListener('DOMContentLoaded', function () {
+    connectSocket();
+    loadUserList();
+    if (chatInputForm) {
+      chatInputForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!chatInput.value.trim() || !currentChatUser) return;
+        socket.emit('send_message', {
+          sender: getUserId(),
+          receiver: currentChatUser._id,
+          content: chatInput.value.trim()
+        });
+        chatInput.value = '';
+      });
+    }
+    // User search
+    const chatUserSearch = document.getElementById('chatUserSearch');
+    if (chatUserSearch) {
+      chatUserSearch.addEventListener('input', function () {
+        const term = this.value.toLowerCase();
+        Array.from(chatUserList.children).forEach(child => {
+          const name = child.querySelector('.font-semibold').textContent.toLowerCase();
+          child.style.display = name.includes(term) ? '' : 'none';
+        });
+      });
+    }
+  });
+}
+</script>
+</body>
+
+</html>

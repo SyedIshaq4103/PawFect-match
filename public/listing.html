@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List a Pet | PawfectMatch</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+                            <i class="ri-footprint-line"></i>
+                        </div>
+                        <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-lg mx-auto mt-24 bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-6 text-center">List a Pet for Adoption</h2>
+        <form id="petListingForm">
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Pet Name</label>
+                <input type="text" id="petName" class="input-field" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Type</label>
+                <select id="petType" class="input-field" required>
+                    <option value="dog">Dog</option>
+                    <option value="cat">Cat</option>
+                    <option value="bird">Bird</option>
+                    <option value="small">Small & Furry</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Age</label>
+                <input type="text" id="petAge" class="input-field" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Gender</label>
+                <select id="petGender" class="input-field" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Description</label>
+                <textarea id="petDescription" class="input-field" rows="3"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Location</label>
+                <input type="text" id="petLocation" class="input-field" required>
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 mb-2">Image</label>
+                <input type="file" id="petImage" class="input-field" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn-primary w-full">List Pet</button>
+        </form>
+        <div id="listingSuccess" class="hidden text-green-600 text-center mt-4">Pet listed successfully!</div>
+        <div id="listingError" class="hidden text-red-600 text-center mt-4"></div>
+    </div>
+    <script>
+    // Auth-based UI logic for listing page
+    document.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+        const loginBtn = document.getElementById('loginNavBtn');
+        const registerBtn = document.getElementById('registerNavBtn');
+        const listingContainer = document.getElementById('listingContainer');
+        if (!token) {
+            // Hide the form and show a message
+            if (listingContainer) {
+                listingContainer.innerHTML = '<div class="text-center text-red-600 font-semibold">You must be logged in to list a pet.</div>';
+            }
+        } else {
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (registerBtn) registerBtn.style.display = 'none';
+        }
+    });
+    document.getElementById('petListingForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', document.getElementById('petName').value);
+        formData.append('type', document.getElementById('petType').value);
+        formData.append('age', document.getElementById('petAge').value);
+        formData.append('gender', document.getElementById('petGender').value);
+        formData.append('description', document.getElementById('petDescription').value);
+        formData.append('location', document.getElementById('petLocation').value);
+        formData.append('image', document.getElementById('petImage').files[0]);
+        const token = localStorage.getItem('token');
+        try {
+            const res = await fetch('http://localhost:5000/api/pets', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            });
+            if (res.ok) {
+                document.getElementById('listingSuccess').classList.remove('hidden');
+                document.getElementById('listingError').classList.add('hidden');
+                document.getElementById('petListingForm').reset();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200);
+            } else {
+                const data = await res.json();
+                document.getElementById('listingError').textContent = data.error || 'Failed to list pet.';
+                document.getElementById('listingError').classList.remove('hidden');
+                document.getElementById('listingSuccess').classList.add('hidden');
+            }
+        } catch (err) {
+            document.getElementById('listingError').textContent = 'Server error. Please try again.';
+            document.getElementById('listingError').classList.remove('hidden');
+            document.getElementById('listingSuccess').classList.add('hidden');
+        }
+    });
+    </script>
+</body>
+</html>

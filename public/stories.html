@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Stories</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#6366f1', secondary: '#f97316' } } } };</script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white shadow-sm w-full z-50 mb-8">
+        <div class="max-w-4xl mx-auto px-4 flex justify-between items-center h-16">
+            <a href="index.html" class="flex items-center">
+                <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+                    <i class="ri-footprint-line"></i>
+                </div>
+                <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
+            </a>
+            <span class="text-primary font-bold text-lg">Pawfect Stories</span>
+        </div>
+    </nav>
+    <!-- Share Story Modal -->
+    <div id="shareStoryModal" class="fixed inset-0 bg-black bg-opacity-40 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col items-center">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Share Your Pawfect Story</h3>
+            <input type="file" id="storyImageInput" accept="image/*" class="mb-3 w-full text-sm" />
+            <img id="storyImagePreview" src="" alt="Preview" class="w-full h-48 object-cover rounded mb-3 hidden" />
+            <textarea id="storyDescription" rows="4" class="w-full border border-gray-200 rounded-lg p-2 mb-4 focus:ring-primary focus:border-primary" placeholder="Write your story..."></textarea>
+            <button id="submitStoryBtn" class="bg-primary text-white px-4 py-2 rounded-button font-medium hover:bg-primary/90 w-full mb-2">Post</button>
+            <button id="closeShareStoryModal" class="text-gray-500 hover:text-primary text-sm">Cancel</button>
+        </div>
+    </div>
+    <main class="max-w-2xl mx-auto px-2 pb-16">
+        <div class="flex justify-center mb-8">
+            <button id="openShareStoryModal" class="bg-primary text-white px-6 py-2 rounded-full font-bold shadow hover:bg-primary/90 transition">Share Your Story</button>
+        </div>
+        <div id="storiesFeed" class="grid grid-cols-1 gap-8"></div>
+    </main>
+    <script>
+    // --- Pawfect Stories: Persistent with Backend API ---
+    const API_URL = 'http://127.0.0.1:5000/api/stories';
+    let stories = [];
+
+    async function fetchStories() {
+        try {
+            const res = await fetch(API_URL);
+            if (!res.ok) throw new Error('Failed to fetch stories: ' + res.status);
+            stories = await res.json();
+        } catch (err) {
+            console.error('Error fetching stories:', err);
+            stories = [];
+            // Optionally show error to user
+            document.getElementById('storiesFeed').innerHTML = `<div class="text-center text-red-500">Failed to load stories. Please try again later.</div>`;
+            return;
+        }
+        renderStories();
+    }
+
+    function renderStories() {
+        const feed = document.getElementById('storiesFeed');
+        feed.innerHTML = '';
+        if (!stories.length) {
+            feed.innerHTML = '<div class="text-center text-gray-400">No stories yet. Be the first to share your Pawfect Story!</div>';
+            return;
+        }
+        stories.forEach(story => {
+            const post = document.createElement('div');
+            post.className = 'bg-white rounded-2xl shadow-md border border-gray-100 flex flex-col';
+            post.innerHTML = `
+                <div class="flex items-center gap-3 p-4 border-b border-gray-100">
+                    <img src="${story.user.avatar || ''}" class="w-10 h-10 rounded-full object-cover" alt="User profile">
+                    <div>
+                        <span class="font-semibold text-gray-900">${story.user.name}</span>
+                        <span class="text-xs text-gray-400 ml-2">${story.user.adopted || ''}</span>
+                    </div>
+                </div>
+                <img src="${story.image}" class="w-full h-80 object-cover" alt="Pawfect story">
+                <div class="p-4 flex-1 flex flex-col">
+                    <p class="text-gray-700 mb-2 flex-1">${story.description}</p>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="flex items-center gap-2">
+                            <button class="likeBtn text-primary hover:text-secondary" data-id="${story._id}"><i class="${story.liked ? 'ri-heart-fill' : 'ri-heart-line'}"></i></button>
+                            <span class="text-xs text-gray-500 likesCount">${story.likes}</span>
+                            <button class="commentBtn text-gray-500 hover:text-primary ml-3" data-id="${story._id}"><i class="ri-chat-3-line"></i></button>
+                            <span class="text-xs text-gray-500">${story.comments.length}</span>
+                        </div>
+                        <span class="text-xs text-gray-400">${new Date(story.createdAt).toLocaleString()}</span>
+                    </div>
+                    <div class="comments mt-3 space-y-2">
+                        ${story.comments.map(c => `<div class='flex items-center gap-2'><span class='font-semibold text-xs text-primary'>${c.user}</span><span class='text-xs text-gray-700'>${c.text}</span></div>`).join('')}
+                    </div>
+                    <form class="addComment flex mt-2 gap-2" data-id="${story._id}">
+                        <input type="text" class="flex-1 border border-gray-200 rounded px-2 py-1 text-xs focus:ring-primary focus:border-primary" placeholder="Add a comment..." required />
+                        <button type="submit" class="text-primary font-bold text-xs">Post</button>
+                    </form>
+                </div>
+            `;
+            feed.appendChild(post);
+        });
+        // Like button logic
+        document.querySelectorAll('.likeBtn').forEach(btn => {
+            btn.onclick = async function() {
+                const id = btn.getAttribute('data-id');
+                const user = localStorage.getItem('username') || '@you';
+                const res = await fetch(`${API_URL}/${id}/like`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user })
+                });
+                const data = await res.json();
+                // Update local like state
+                const story = stories.find(s => s._id === id);
+                if (story) {
+                    story.likes = data.likes;
+                    story.liked = data.liked;
+                }
+                renderStories();
+            };
+        });
+        // Comment logic
+        document.querySelectorAll('.addComment').forEach(form => {
+            form.onsubmit = async function(e) {
+                e.preventDefault();
+                const id = form.getAttribute('data-id');
+                const input = form.querySelector('input');
+                const text = input.value.trim();
+                if (text) {
+                    const user = localStorage.getItem('username') || '@you';
+                    const res = await fetch(`${API_URL}/${id}/comment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ user, text })
+                    });
+                    const comments = await res.json();
+                    const story = stories.find(s => s._id === id);
+                    if (story) story.comments = comments;
+                    renderStories();
+                }
+            };
+        });
+    }
+
+    fetchStories();
+
+    // Share Story Modal logic
+    const openShareStoryModal = document.getElementById('openShareStoryModal');
+    const shareStoryModal = document.getElementById('shareStoryModal');
+    const closeShareStoryModal = document.getElementById('closeShareStoryModal');
+    const submitStoryBtn = document.getElementById('submitStoryBtn');
+    const storyDescription = document.getElementById('storyDescription');
+    openShareStoryModal && (openShareStoryModal.onclick = () => {
+        shareStoryModal.classList.remove('hidden');
+        storyDescription.value = '';
+    });
+    closeShareStoryModal && (closeShareStoryModal.onclick = () => {
+        shareStoryModal.classList.add('hidden');
+    });
+    // Image upload/preview logic
+    const storyImageInput = document.getElementById('storyImageInput');
+    const storyImagePreview = document.getElementById('storyImagePreview');
+    let uploadedImageFile = null;
+    storyImageInput.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            uploadedImageFile = file;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                storyImagePreview.src = evt.target.result;
+                storyImagePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            uploadedImageFile = null;
+            storyImagePreview.src = '';
+            storyImagePreview.classList.add('hidden');
+        }
+    };
+
+    submitStoryBtn && (submitStoryBtn.onclick = async (e) => {
+        e.preventDefault();
+        const desc = storyDescription.value.trim();
+        const user = {
+            name: localStorage.getItem('username') || '@you',
+            avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
+            adopted: 'Shared a story'
+        };
+        if (desc) {
+            try {
+                const formData = new FormData();
+                // Append user fields individually
+                for (const key in user) {
+                    formData.append(`user[${key}]`, user[key]);
+                }
+                formData.append('description', desc);
+                if (uploadedImageFile) {
+                    formData.append('image', uploadedImageFile);
+                }
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!res.ok) {
+                    const errText = await res.text();
+                    alert('Failed to post story: ' + errText);
+                    return;
+                }
+                await fetchStories();
+                shareStoryModal.classList.add('hidden');
+                // Reset image input
+                storyImageInput.value = '';
+                uploadedImageFile = null;
+                storyImagePreview.src = '';
+                storyImagePreview.classList.add('hidden');
+            } catch (err) {
+                alert('Failed to post story: ' + err.message);
+            }
+        }
+    });
+    </script>
+            
+        </div>
+    </main>
+</body>
+</html>

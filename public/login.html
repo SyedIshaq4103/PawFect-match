@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawfectMatch - Log In</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { primary: '#6366f1', secondary: '#f97316' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=Pacifico&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before {
+            content: "\f3c2";
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .logo {
+            font-family: 'Pacifico', serif;
+        }
+
+        .form-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .password-toggle:focus {
+            outline: none;
+        }
+
+        .social-login-btn {
+            transition: all 0.2s ease;
+        }
+
+        .social-login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #d1d5db;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox.checked {
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+
+        .custom-checkbox.checked::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <div class="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <a href="index.html"
+                    class="flex items-center justify-center text-primary text-3xl font-bold hover:text-primary/80 transition-colors"
+                    data-readdy="true" class="inline-flex items-center">
+                    <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+                        <i class="ri-footprint-line"></i>
+                    </div>
+                    <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
+                </a>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-8">
+                <h1 class="text-2xl font-bold text-gray-900 mb-2 text-center">Welcome Back</h1>
+                <p class="text-gray-600 text-center mb-6">Sign in to continue to your account</p>
+                <form>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email or
+                            Username</label>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none w-6 h-full flex items-center justify-center">
+                                <i class="ri-user-line text-gray-400"></i>
+                            </div>
+                            <input id="email" type="text"
+                                class="form-input pl-10 w-full border border-gray-300 rounded py-2 px-4 text-sm focus:outline-none"
+                                placeholder="Enter your email or username">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-1">
+                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <a href="#" class="text-sm text-primary hover:text-primary/80">Forgot Password?</a>
+                        </div>
+                        <div class="relative">
+                            <div
+                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none w-6 h-full flex items-center justify-center">
+                                <i class="ri-lock-line text-gray-400"></i>
+                            </div>
+                            <input id="password" type="password"
+                                class="form-input pl-10 w-full border border-gray-300 rounded py-2 px-4 text-sm focus:outline-none"
+                                placeholder="Enter your password">
+                            <button type="button" id="togglePassword"
+                                class="password-toggle absolute inset-y-0 right-0 pr-3 flex items-center w-10 h-full flex items-center justify-center">
+                                <i class="ri-eye-off-line text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-6">
+                        <div id="rememberMe" class="custom-checkbox mr-2"></div>
+                        <label for="rememberMe" class="text-sm text-gray-700 select-none">Remember me</label>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-primary text-white py-2.5 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90 transition-colors">Log
+                        In</button>
+                </form>
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <button type="button" id="googleLoginBtn"
+                            class="social-login-btn flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white hover:bg-gray-50">
+                            <div class="w-5 h-5 flex items-center justify-center mr-2">
+                                <i class="ri-google-fill text-[#4285F4]"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">Google</span>
+                        </button>
+                        <button type="button"
+                            class="social-login-btn flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white hover:bg-gray-50">
+                            <div class="w-5 h-5 flex items-center justify-center mr-2">
+                                <i class="ri-facebook-fill text-[#1877F2]"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">Facebook</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <p class="text-gray-600">
+                    Don't have an account?
+                    <a href="register.html" class="text-primary font-medium hover:text-primary/80">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <footer class="py-6 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2025 PawfectMatch. All rights reserved.</p>
+                <div class="flex gap-4 text-sm text-gray-500">
+                    <a href="#" class="hover:text-gray-700">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-700">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-700">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Google OAuth Configuration
+            const googleConfig = {
+                clientId: 'your-client-id',
+                redirectUri: `${window.location.origin}/auth/google/callback`,
+                scope: 'email profile',
+                authUrl: 'https://accounts.google.com/o/oauth2/v2/auth'
+            };
+
+            // Google OAuth Login
+            document.getElementById('googleLoginBtn').addEventListener('click', function () {
+                const params = new URLSearchParams({
+                    client_id: googleConfig.clientId,
+                    redirect_uri: googleConfig.redirectUri,
+                    response_type: 'code',
+                    scope: googleConfig.scope,
+                    access_type: 'offline',
+                    prompt: 'consent'
+                });
+
+                const authUrl = `${googleConfig.authUrl}?${params.toString()}`;
+                window.location.href = authUrl;
+            });
+            // Password visibility toggle
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                const icon = togglePassword.querySelector('i');
+                icon.classList.toggle('ri-eye-line', type === 'text');
+                icon.classList.toggle('ri-eye-off-line', type === 'password');
+            });
+
+            // Custom checkbox toggle
+            const checkbox = document.getElementById('rememberMe');
+            checkbox.addEventListener('click', function () {
+                this.classList.toggle('checked');
+            });
+
+            // LOGIN LOGIC
+            const form = document.querySelector('form');
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const emailOrUsername = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                try {
+                    const res = await fetch('http://127.0.0.1:5000/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: emailOrUsername, // backend expects 'email'
+                            password: password
+                        })
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        alert('Login successful!');
+                        localStorage.setItem('token', data.token); // store JWT
+                        // Save username for display in nav
+                        if (data.user && data.user.username) {
+                            localStorage.setItem('username', data.user.username);
+                        } else if (data.username) {
+                            localStorage.setItem('username', data.username);
+                        } else {
+                            // fallback: try to use the login field
+                            localStorage.setItem('username', emailOrUsername);
+                        }
+                        window.location.href = 'index.html'; // redirect after login
+                    } else {
+                        alert(data.error || 'Login failed');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('Failed to connect to server');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

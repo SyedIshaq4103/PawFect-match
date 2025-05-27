@@ -1,0 +1,66 @@
+<!-- public/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-indigo-600">Create an Account</h2>
+    <form id="registerForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium">Username</label>
+        <input type="text" id="username" class="w-full border border-gray-300 rounded px-3 py-2" required>
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Email</label>
+        <input type="email" id="email" class="w-full border border-gray-300 rounded px-3 py-2" required>
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Password</label>
+        <input type="password" id="password" class="w-full border border-gray-300 rounded px-3 py-2" required>
+      </div>
+      <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-500">
+        Register
+      </button>
+    </form>
+    <p id="message" class="text-center text-sm mt-4 text-red-500"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      message.textContent = '';
+
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('http://127.0.0.1:5000/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert('Registration successful! Redirecting to login page...');
+          window.location.href = 'login.html'; // Adjust if needed
+        } else {
+          message.textContent = data.error || 'Something went wrong.';
+        }
+      } catch (err) {
+        message.textContent = 'Failed to connect to server.';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

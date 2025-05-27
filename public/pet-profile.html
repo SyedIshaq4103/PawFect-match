@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Profile | PawfectMatch</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50">
+  <nav class="bg-white shadow-sm fixed w-full z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="index.html" class="flex items-center">
+            <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+              <i class="ri-footprint-line"></i>
+            </div>
+            <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="max-w-2xl mx-auto mt-24 bg-white p-8 rounded-lg shadow-lg">
+    <div id="petProfile">
+      <!-- Pet details will be loaded here -->
+    </div>
+    <div id="adoptMsg" class="hidden text-green-600 text-center mt-4"></div>
+    <button id="adoptBtn" class="btn-primary w-full mt-6">Adopt Me</button>
+  </div>
+  <script>
+    // Get pet id from query string
+    function getPetId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    async function loadPetProfile() {
+      const petId = getPetId();
+      if (!petId) return;
+      const res = await fetch(`http://localhost:5000/api/pets/${petId}`);
+      if (!res.ok) {
+        document.getElementById('petProfile').innerHTML = '<p class="text-red-600">Pet not found.</p>';
+        document.getElementById('adoptBtn').style.display = 'none';
+        return;
+      }
+      const pet = await res.json();
+      document.getElementById('petProfile').innerHTML = `
+        <img src="${pet.image || 'https://via.placeholder.com/300'}" class="w-full h-64 object-cover rounded mb-4" />
+        <h2 class="text-2xl font-bold mb-2">${pet.name}</h2>
+        <p class="mb-1"><strong>Type:</strong> ${pet.type}</p>
+        <p class="mb-1"><strong>Age:</strong> ${pet.age}</p>
+        <p class="mb-1"><strong>Gender:</strong> ${pet.gender}</p>
+        <p class="mb-1"><strong>Location:</strong> ${pet.location || 'N/A'}</p>
+        <p class="mb-1"><strong>Owner:</strong> ${pet.owner && pet.owner.username ? pet.owner.username : 'N/A'}</p>
+        <p class="mb-3"><strong>Description:</strong> ${pet.description || 'No description.'}</p>
+        <button class="flex items-center text-primary mt-2 chat-btn" id="chatOwnerBtn" data-owner="${pet.owner && pet.owner._id ? pet.owner._id : ''}" data-ownername="${pet.owner && pet.owner.username ? pet.owner.username : ''}">
+          <i class="ri-chat-3-line mr-1"></i> Chat with Owner
+        </button>
+      `;
+    // Add chat button event listener
+    setTimeout(() => {
+      const chatBtn = document.getElementById('chatOwnerBtn');
+      if (chatBtn) {
+        chatBtn.addEventListener('click', function() {
+          const ownerId = this.getAttribute('data-owner');
+          const ownerName = this.getAttribute('data-ownername');
+          if (ownerId) {
+            window.location.href = `chat.html?user=${ownerId}&username=${encodeURIComponent(ownerName)}`;
+          } else {
+            alert('Owner information not available for this pet.');
+          }
+        });
+      }
+    }, 0);
+    }
+
+    document.getElementById('adoptBtn').addEventListener('click', async function() {
+      const petId = getPetId();
+      // Simulate user authentication (replace with real auth check)
+      const token = localStorage.getItem('token');
+      if (!token) {
+        document.getElementById('adoptMsg').textContent = 'Please log in to request adoption.';
+        document.getElementById('adoptMsg').classList.remove('hidden');
+        return;
+      }
+      try {
+        const res = await fetch('http://localhost:5000/api/adoptions/request', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ petId })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          document.getElementById('adoptMsg').textContent = 'Adoption request sent!';
+          document.getElementById('adoptMsg').classList.remove('hidden');
+        } else {
+          document.getElementById('adoptMsg').textContent = data.error || 'Failed to send request.';
+          document.getElementById('adoptMsg').classList.remove('hidden');
+        }
+      } catch (err) {
+        document.getElementById('adoptMsg').textContent = 'Server error. Please try again.';
+        document.getElementById('adoptMsg').classList.remove('hidden');
+      }
+    });
+
+    loadPetProfile();
+  </script>
+</body>
+</html>
