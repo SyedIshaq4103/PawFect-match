@@ -28,56 +28,60 @@
     </div>
     <!-- Navigation -->
     <nav class="bg-white shadow-sm fixed w-full z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="#" class="flex items-center">
-                        <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
-                            <i class="ri-footprint-line"></i>
-                        </div>
-                        <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
-                    </a>
-                    <div class="hidden md:ml-10 md:flex md:space-x-8 items-center">
-                        <a href="#" class="text-primary border-b-2 border-primary px-1 pt-1 font-medium">Home</a>
-                        <a href="search.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
-                            id="searchNavLink">Search Pets</a>
-                        <a href="stories.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
-                            id="storiesNavLink">Pawfect Stories</a>
-                        <a href="#" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
-                            id="aboutNavLink">About Us</a>
-                        <a href="#" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
-                            id="contactNavLink">Contact</a>
-
-                <div class="flex items-center">
-                    <a href="login.html" id="loginNavBtn">
-                        <button
-                            class="bg-white text-primary border border-primary px-4 py-2 !rounded-button font-medium mr-3 whitespace-nowrap hover:bg-gray-50">Log
-                            In</button>
-                    </a>
-                    <a href="register.html" id="registerNavBtn">
-                        <button
-                            class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Register</button>
-                    </a>
-                    <span id="navUsername" class="ml-4 text-primary font-semibold hidden"></span>
-                    <button id="logoutBtn"
-                        class="ml-3 bg-gray-200 text-gray-700 px-4 py-2 rounded-button font-medium hover:bg-gray-300 hidden">Logout</button>
-                    <a href="listing.html">
-                        <button
-                            class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90 ml-3"
-                            id="listPetNavBtn">List a Pet</button>
-                    </a>
-                    <div class="ml-4 flex items-center md:hidden">
-                        <button
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none">
-                            <div class="w-6 h-6 flex items-center justify-center">
-                                <i class="ri-menu-line"></i>
-                            </div>
-                        </button>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+                        <i class="ri-footprint-line"></i>
                     </div>
+                    <span class="mr-0 text-2xl text-gray-800 logo">PawfectMatch</span>
+                </a>
+            </div>
+            <!-- Centered navigation links -->
+            <div class="flex-1 flex justify-center items-center">
+                <div class="hidden md:flex md:space-x-8 items-center">
+                    <a href="#" class="text-primary border-b-0 border-primary px-1 pt-1 font-medium">Home</a>
+                    <a href="search.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-semibold"
+                        id="searchNavLink">Search Pets</a>
+                    <a href="stories.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-semibold text-center"
+                        id="storiesNavLink">Pawfect Stories</a>
+                    <a href="#" class="text-gray-700 hover:text-primary pt-1 font-semibold"
+                        id="aboutNavLink">About Us</a>
+                    <a href="#" class="text-gray-700 hover:text-primary px-1 pt-1 font-small"
+                        id="contactNavLink">Contact</a>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <a href="login.html" id="loginNavBtn">
+                    <button
+                        class="bg-white text-primary border border-primary px-4 py-2 !rounded-button font-medium mr-3 whitespace-nowrap hover:bg-gray-50">Log
+                        In</button>
+                </a>
+                <a href="register.html" id="registerNavBtn">
+                    <button
+                        class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Register</button>
+                </a>
+                <span id="navUsername" class="ml-4 text-primary font-semibold hidden"></span>
+                <button id="logoutBtn"
+                    class="ml-3 bg-gray-200 text-gray-700 px-4 py-2 rounded-button font-medium hover:bg-gray-300 hidden">Logout</button>
+                <a href="listing.html">
+                    <button
+                        class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90 ml-3"
+                        id="listPetNavBtn">List a Pet</button>
+                </a>
+                <div class="ml-4 flex items-center md:hidden">
+                    <button
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
     <!-- Hero Section -->
     <div class="relative pt-16 overflow-hidden">
         <div class="w-full h-[600px] bg-cover bg-center"
