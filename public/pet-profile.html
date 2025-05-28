@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pet Profile | PawfectMatch</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="bg-gray-50">
   <nav class="bg-white shadow-sm fixed w-full z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-10% mx-auto px-4 sm:px-6 lg:px-8">
+
       <div class="flex justify-between h-16">
-        <div class="flex items-center">
+        <div class="flex items-center justify-between w-full">
           <a href="index.html" class="flex items-center">
             <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
               <i class="ri-footprint-line"></i>
             </div>
             <span class="ml-2 text-2xl text-gray-800 logo">PawfectMatch</span>
           </a>
+          <span class="flex-1 text-center font-bold" style="font-size:30px; padding-left: 500px;">About the pet</span>
+          <div class="w-10 h-10"></div>
         </div>
       </div>
     </div>
@@ -46,36 +51,78 @@
       }
       const pet = await res.json();
       document.getElementById('petProfile').innerHTML = `
-        <img src="${pet.image || 'https://via.placeholder.com/300'}" class="w-full h-64 object-cover rounded mb-4" />
-        <h2 class="text-2xl font-bold mb-2">${pet.name}</h2>
-        <p class="mb-1"><strong>Type:</strong> ${pet.type}</p>
-        <p class="mb-1"><strong>Age:</strong> ${pet.age}</p>
-        <p class="mb-1"><strong>Gender:</strong> ${pet.gender}</p>
-        <p class="mb-1"><strong>Location:</strong> ${pet.location || 'N/A'}</p>
-        <p class="mb-1"><strong>Owner:</strong> ${pet.owner && pet.owner.username ? pet.owner.username : 'N/A'}</p>
-        <p class="mb-3"><strong>Description:</strong> ${pet.description || 'No description.'}</p>
-        <button class="flex items-center text-primary mt-2 chat-btn" id="chatOwnerBtn" data-owner="${pet.owner && pet.owner._id ? pet.owner._id : ''}" data-ownername="${pet.owner && pet.owner.username ? pet.owner.username : ''}">
-          <i class="ri-chat-3-line mr-1"></i> Chat with Owner
-        </button>
+       <img style="width:550px;height:500px;display:block;margin-left:auto;margin-right:auto;" src="${pet.image || 'https://via.placeholder.com/300'}" class="object-cover rounded mb-4" />
+       
+        <div class="mt-4">
+<form class="space-y-4 p-4 bg-white rounded-xl shadow-md max-w-md mx-auto">
+  <h2 class="text-2xl font-bold text-gray-800">Pet Details</h2>
+
+  <div class="space-y-2">
+    <label for="petname" class="block text-lg font-semibold text-gray-700">Name</label>
+    <input id="petname" type="text" value="${pet.name}" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>
+  </div>
+
+  <div class="space-y-2">
+    <label for="pettype" class="block text-lg font-semibold text-gray-700">Type</label>
+    <input id="pettype" type="text" value="${pet.type}" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>
+  </div>
+
+  <div class="space-y-2">
+    <label for="petage" class="block text-lg font-semibold text-gray-700">Age</label>
+    <input id="petage" type="text" value="${pet.age}" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>
+  </div>
+
+  <div class="space-y-2">
+    <label for="petgender" class="block text-lg font-semibold text-gray-700">Gender</label>
+    <input id="petgender" type="text" value="${pet.gender}" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>
+  </div>
+
+  <div class="space-y-2">
+    <label for="petlocation" class="block text-lg font-semibold text-gray-700">Location</label>
+    <input id="petlocation" type="text" value="${pet.location || 'N/A'}" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>
+  </div>
+
+  <div class="space-y-2">
+    <label for="petowner" class="block text-lg font-semibold text-gray-700">Owner</label>
+    <input id="petowner" type="text" value="${pet.owner && pet.owner.username ? pet.owner.username : 'N/A'}" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>
+  </div>
+
+  <div class="space-y-2">
+    <label for="petdescription" class="block text-lg font-semibold text-gray-700">Description</label>
+    <textarea id="petdescription" rows="3" class="w-full p-2 rounded-md bg-gray-100 text-gray-700" readonly>${pet.description || 'No description.'}</textarea>
+  </div>
+
+  <button
+    class="flex items-center justify-center gap-2 w-full py-2 px-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg mt-4 transition"
+    id="chatOwnerBtn"
+    data-owner="${pet.owner && pet.owner._id ? pet.owner._id : ''}"
+    data-ownername="${pet.owner && pet.owner.username ? pet.owner.username : ''}"
+  >
+    <i class="ri-chat-3-line"></i>
+    Chat with Owner
+  </button>
+</form>
+</div>
+
       `;
-    // Add chat button event listener
-    setTimeout(() => {
-      const chatBtn = document.getElementById('chatOwnerBtn');
-      if (chatBtn) {
-        chatBtn.addEventListener('click', function() {
-          const ownerId = this.getAttribute('data-owner');
-          const ownerName = this.getAttribute('data-ownername');
-          if (ownerId) {
-            window.location.href = `chat.html?user=${ownerId}&username=${encodeURIComponent(ownerName)}`;
-          } else {
-            alert('Owner information not available for this pet.');
-          }
-        });
-      }
-    }, 0);
+      // Add chat button event listener
+      setTimeout(() => {
+        const chatBtn = document.getElementById('chatOwnerBtn');
+        if (chatBtn) {
+          chatBtn.addEventListener('click', function () {
+            const ownerId = this.getAttribute('data-owner');
+            const ownerName = this.getAttribute('data-ownername');
+            if (ownerId) {
+              window.location.href = `chat.html?user=${ownerId}&username=${encodeURIComponent(ownerName)}`;
+            } else {
+              alert('Owner information not available for this pet.');
+            }
+          });
+        }
+      }, 0);
     }
 
-    document.getElementById('adoptBtn').addEventListener('click', async function() {
+    document.getElementById('adoptBtn').addEventListener('click', async function () {
       const petId = getPetId();
       // Simulate user authentication (replace with real auth check)
       const token = localStorage.getItem('token');
@@ -110,4 +157,5 @@
     loadPetProfile();
   </script>
 </body>
+
 </html>
