@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | PawfectMatch</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: '#6366f1', secondary: '#f97316' }
+          }
+        }
+      };
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+     <nav class="bg-white shadow-sm fixed w-full z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <div class="w-10 h-10 flex items-center justify-center text-primary text-2xl">
+                        <i class="ri-footprint-line"></i>
+                    </div>
+                    <span class="mr-0 text-2xl text-gray-800 logo">PawfectMatch</span>
+                </a>
+            </div>
+            <!-- Centered navigation links -->
+            <div class="flex-1 flex justify-center items-center">
+                <div class="hidden md:flex md:space-x-8 items-center">
+                    <a href="index.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium">Home</a>
+                    <a href="search.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium"
+                        id="searchNavLink">Search Pets</a>
+                    <a href="stories.html" class="text-gray-700 hover:text-primary px-1 pt-1 font-medium text-center"
+                        id="storiesNavLink">Pawfect Stories</a>
+                    <a href="Aboutus.html" class="text-gray-700 hover:text-primary pt-1 font-medium"
+                        id="aboutNavLink">About Us</a>
+                    <a href="#" class="text-gray-700 hover:text-primary px-1 pt-1 font-small font-medium"
+                        id="contactNavLink">Contact</a>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <a href="login.html" id="loginNavBtn">
+                    <button
+                        class="bg-white text-primary border border-primary px-4 py-2 !rounded-button font-medium mr-3 whitespace-nowrap hover:bg-gray-50">Log
+                        In</button>
+                </a>
+                <a href="register.html" id="registerNavBtn">
+                    <button
+                        class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90">Register</button>
+                </a>
+                <span id="navUsername" class="ml-4 text-primary font-semibold hidden"></span>
+                <button id="logoutBtn"
+                    class="ml-3 bg-gray-200 text-gray-700 px-4 py-2 rounded-button font-medium hover:bg-gray-300 hidden">Logout</button>
+                <a href="listing.html">
+                    <button
+                        class="bg-primary text-white px-4 py-2 !rounded-button font-medium whitespace-nowrap hover:bg-primary/90 ml-3"
+                        id="listPetNavBtn">List a Pet</button>
+                </a>
+                <div class="ml-4 flex items-center md:hidden">
+                    <button
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-menu-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </nav>
+   <main class="max-w-5xl mx-auto px-4 pb-16">
+   
+    <!-- Mission Section -->
+    <section class="bg-white rounded-2xl shadow-md p-8 mb-8">
+      <h1 class="text-3xl font-bold text-primary mb-4 text-center">Our Mission</h1>
+      <p class="text-gray-700 text-lg mb-4 text-center">
+        PawfectMatch is dedicated to connecting loving pets with caring families. Our mission is to make pet adoption easy, transparent, and joyful for everyone involved.
+      </p>
+    </section>
+
+    <!-- Pet Cards Grid (Single Container for All Cards) -->
+    <div class="flex flex-wrap justify-center gap-6 mb-8">
+
+      <!-- Pet Card 1 -->
+      <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300 w-80">
+        <div class="relative h-64">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDU65TxRLiq8hrfyP9zjNwB2OxDlV-C_csHA&s"
+            alt="Charlie - Beagle" class="w-full h-full object-cover object-top">
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-bold text-gray-900">Charlie</h3>
+            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Dog</span>
+          </div>
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <div class="w-4 h-4 flex items-center justify-center mr-1">
+              <i class="ri-map-pin-line"></i>
+            </div>
+            <span>Charlie is now having a great life with his new family!</span>
+          </div>
+          <div class="flex space-x-2 mb-4">
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">3 years</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Male</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Energetic</span>
+          </div>
+          <button class="w-full bg-primary text-white py-2 rounded-lg font-medium whitespace-nowrap hover:bg-primary/90">
+            View Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Pet Card 2 -->
+      <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300 w-80">
+        <div class="relative h-64">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk1JB_Yef3Vbh5eW3EkVVALqCS8iHA_5_bgA&s"
+            alt="Milo - Parrot" class="w-full h-full object-cover object-top">
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-bold text-gray-900">Milo</h3>
+            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Parrot</span>
+          </div>
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <div class="w-4 h-4 flex items-center justify-center mr-1">
+              <i class="ri-map-pin-line"></i>
+            </div>
+            <span>Milo is now having a happy life with his new family!</span>
+          </div>
+          <div class="flex space-x-2 mb-4">
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">2 years</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Female</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Talkative</span>
+          </div>
+          <button class="w-full bg-primary text-white py-2 rounded-lg font-medium whitespace-nowrap hover:bg-primary/90">
+            View Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Pet Card 3 -->
+      <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300 w-80">
+        <div class="relative h-64">
+          <img src="https://assets.elanco.com/8e0bf1c2-1ae4-001f-9257-f2be3c683fb1/d5406e81-5083-47e9-aad2-ff0ae7f895cb/mature_cat_nz.png"
+            alt="Luna - Cat" class="w-full h-full object-cover object-top">
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-bold text-gray-900">Snowbell</h3>
+            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Cat</span>
+          </div>
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <div class="w-4 h-4 flex items-center justify-center mr-1">
+              <i class="ri-map-pin-line"></i>
+            </div>
+            <span>Snowbell is now thriving in her new forever home!</span>
+          </div>
+          <div class="flex space-x-2 mb-4">
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">1.5 year</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Male</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Playful</span>
+          </div>
+          <button class="w-full bg-primary text-white py-2 rounded-lg font-medium whitespace-nowrap hover:bg-primary/90">
+            View Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Pet Card 4 -->
+      <div class="bg-white rounded-lg shadow-sm overflow-hidden pet-card transition-all duration-300 w-80">
+        <div class="relative h-64">
+          <img src="https://www.comfortzone.com/-/media/project/oneweb/comfortzone/images/blog/bl_necessarysuppliestohavebeforeyoubringyournewcathome_ts-637110224.png"
+            alt="Luna - Cat" class="w-full h-full object-cover object-top">
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-bold text-gray-900">Sufi</h3>
+            <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Cat</span>
+          </div>
+          <div class="flex items-center text-sm text-gray-500 mb-3">
+            <div class="w-4 h-4 flex items-center justify-center mr-1">
+              <i class="ri-map-pin-line"></i>
+            </div>
+            <span>Sufi found a loving family and enjoys cuddles in her new home!</span>
+          </div>
+          <div class="flex space-x-2 mb-4">
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">3 months</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Female</span>
+            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Playful</span>
+          </div>
+          <button class="w-full bg-primary text-white py-2 rounded-lg font-medium whitespace-nowrap hover:bg-primary/90">
+            View Profile
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Team Section -->
+    <section class="bg-white rounded-2xl shadow-md p-8 mb-8">
+  <h2 class="text-2xl font-bold text-secondary mb-2 text-center">Meet the Team</h2>
+  <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
+    <div class="flex flex-col items-center">
+      <span class="font-semibold text-gray-800">Syed Afrid</span>
+      <span class="text-sm text-gray-500">Developer</span>
+    </div>
+    <div class="flex flex-col items-center">
+      <span class="font-semibold text-gray-800">Syed Ishaq</span>
+      <span class="text-sm text-gray-500">Developer</span>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Contact Section -->
+    <section class="bg-white rounded-2xl shadow-md p-8">
+      <h2 class="text-2xl font-bold text-primary mb-2 text-center">Contact Us</h2>
+      <p class="text-gray-700 text-center mb-2">
+        Have questions or want to get involved? Reach out!
+      </p>
+      <div class="flex flex-col items-center gap-2">
+        <a href="mailto:info@pawfectmatch.com" class="text-primary hover:underline flex items-center gap-1">
+          <i class="ri-mail-line"></i> info@pawfectmatch.com
+        </a>
+        <a href="tel:+1234567890" class="text-primary hover:underline flex items-center gap-1">
+          <i class="ri-phone-line"></i> +1 234 567 890
+        </a>
+      </div>
+    </section>
+
+   </main>
+</body>
+</html>

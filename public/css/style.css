@@ -13,11 +13,12 @@
         a:hover {
             text-decoration: underline;
             color: rgb(71, 71, 252);
-            
+            font-weight: bold;
+
         }
         button:hover {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
+    font-weight: bold;
     transition: all 0.2s ease;
     transform: scale(1.1); /* Adjust the scale factor as needed */
     cursor: pointer;
