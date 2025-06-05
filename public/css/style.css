@@ -16,6 +16,11 @@
             font-weight: bold;
 
         }
+        #chatOwnerBtn:hover{
+            text-decoration: none;
+            color: white;
+            transform: scale(1.1);
+        }
         button:hover {
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
